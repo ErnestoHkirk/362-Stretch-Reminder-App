@@ -1,0 +1,12 @@
+stretch = [
+	'Lunges (Leg):\n\nStand with one foot forward and one leg back. \nBend the forward knee into a right angle, and hold for five seconds.',
+	'One legged seated forward bend (Leg):\n\nRemaining seated on the floor, extend one leg outward. \nReach towards your toes. \nHold for 10 to 30 seconds. \nRepeat on the other side.',
+    'Arm windmill (Shoulder):\n\nSlowly swing your arm in a circle stretching out as far as you can.',
+	'Shoulder shrug (Shoulder):\n\nLift your shoulders towards your ears and hold for 1 to 2 seconds.\nThen roll your shoulders back as you relax down. Repeat a few times.',
+	'Child\'s pose (Back):\n\nBegin at table top position. \nSlowly extend your arms in front of you and \ntry to put your face on the floor. \nHold for 20 to 30 seconds.',
+	'Prone back extension (Back):\n\nLay face down on the floor, put your elbows below your shoulders and begin to push your upper body up with your arms.\n',
+	'Top forearm stretch (Arm): \n\nExtend one arm out with your palm facing towards you, point your fingers to the floor. Use your other hand to gently pull the fingers towards yourself. Hold for 10 to 30 seconds. Repeat on the other hand.',
+	'Under forearm stretch (Arm):\n\nExtend one arm out and have your palm face forward with the fingers pointed down. Use your other hands and gently pull your fingers towards yourself. Hold for 10 to 30 seconds. Repeat on the other hand.',
+	'Neck side flexion (Neck): \n\nGently pull your head toward each shoulder \nuntil a light stretch is felt. \nHold pose for 10 to 15 seconds. \nAlternate once on each side.'	
+	'Forward/Backward tilt (Neck):\n\nStart with your head up and slowly lower your chin towards your chest and hold for 10 to 30 seconds. Slowly lift your head back up to neutral and then tilt your chin towards the ceiling and hold for 10 seconds. Repeat for a few reps."
+]
