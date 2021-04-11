@@ -91,7 +91,7 @@ stretch_imgs = [  # THESE CORRESPOND TO THE STRETCHES IN stretch, DO NOT MIX EM 
 
 counter = 0
 _score = 0 # DON'T DIRECTLY REFERENCE THIS, USE update_score
-score_string_var = tkinter.StringVar() # backs the score label
+score_string_var = tkinter.StringVar(value="Score: ") # backs the score label
 def update_score(delta):
     global _score
     _score += delta
@@ -181,10 +181,10 @@ bt3 = tkinter.Button(
 bt3.configure(bg='#CF6024')
 bt3.pack(padx=20, pady=20, anchor='e')
 
-photo = tkinter.PhotoImage(file="download.png")
-photo = photo.subsample(20, 20)
-myimage = tkinter.Label(image=photo)
-myimage.pack()
+# photo = tkinter.PhotoImage(file="download.png")
+# photo = photo.subsample(20, 20)
+# myimage = tkinter.Label(image=photo)
+# myimage.pack()
 
 
 root.mainloop()  # leave at end of program
