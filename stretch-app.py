@@ -1,131 +1,190 @@
 # sandfly.py
 # Dimitra Doiphode, Austin Sohn, Zakee Khattak, Ernesto Hooghkirk, Savannah Bauer
-# TODO: 
+# TODO:
 # Phase 1 -
-# Complete! :) 
-# Phase 2 
+# Complete! :)
+# Phase 2
 # - Image accompanying each stretch to demonstrate how to do it
 # - Dark mode -CHECK
 # - Sound/alarm
 # - Similar stretch button? (see similar stretches)
-# - 
-# Phase 3 
+# -
+# Phase 3
 # - gif accompanying each stretch to demonstrate how to do it
 # - reward system?
 # -
 # -
 # -
 
-# importing whole module 
+# importing whole module
 import tkinter
+from PIL import Image, ImageTk # for JPG support
 import random
-# importing strftime function to 
-# retrieve system's time 
-from time import strftime 
+# importing strftime function to
+# retrieve system's time
+from time import strftime
 from tkinter import messagebox
 
-# creating tkinter window 
+# creating tkinter window
 fontName = 'Georgia'
-root = tkinter.Tk() 
+root = tkinter.Tk()
 root.title("Project Sandfly: Stretch Reminder")
 root.configure(bg='#E19669')
 
-# This function is used to 
-# display time on the label 
-def time(): 
-	string = strftime('%I:%M %p') 
-	lbl.config(text = string) 
-	lbl.after(1000, time) 
+# This function is used to
+# display time on the label
 
-# Styling the label widget so that clock 
-# will look more attractive 
-lbl = tkinter.Label(root, font = (fontName, 40)) 
+
+def time():
+    string = strftime('%I:%M %p')
+    lbl.config(text=string)
+    lbl.after(1000, time)
+
+
+# Styling the label widget so that clock
+# will look more attractive
+lbl = tkinter.Label(root, font=(fontName, 40))
 lbl.configure(bg='#E19669')
 
-# Placing clock at the centre 
-# of the tkinter window 
-lbl.pack(anchor = 'center') 
+# Placing clock at the centre
+# of the tkinter window
+lbl.pack(anchor='center')
 time()
 
 quotes = [
-	'\n"The key to success is to start before \nyou are ready." \n- Marie Forleo\n',
+    '\n"The key to success is to start before \nyou are ready." \n- Marie Forleo\n',
     '\n"Challenges are what make life interesting. \nOvercoming them is what makes life meaningful." \n- Joshua J. Marine\n',
     '\n"If people are doubting how far you can go, \ngo so far that you can\'t hear them anymore." \n- Michele Ruiz\n',
-	'\n"If you are always trying to be normal, \nyou will never know how amazing you can be." \n- Maya Angelou\n',
-	'\n"If you\'re going through hell, keep going."\n - Winston Churchill\n'
+    '\n"If you are always trying to be normal, \nyou will never know how amazing you can be." \n- Maya Angelou\n',
+    '\n"If you\'re going through hell, keep going."\n - Winston Churchill\n'
 ]
-move = tkinter.Label(text = random.choice(quotes), font = (fontName, 17), relief = "solid")
+move = tkinter.Label(text=random.choice(
+    quotes), font=(fontName, 17), relief="solid")
 move.configure(bg='#D67540')
-move.pack(padx = 20, pady=6)
+move.pack(padx=20, pady=6)
 
 stretch = [
-	'5 leg lunges on each leg. \n\nStand with one foot forward and one leg back. \nBend the forward knee into a right angle, and hold for five seconds.',
-    'Torso Stretch. \n\nKeep your feet firmly on the ground, facing forward. \nTwist your upper body in the direction of your arms resting on the back of the chair. \nHold for 10 to 30 seconds. \nRepeat on the other side.',
-    'Start with cartwheels for 30 seconds \n\nThen complete 30 seconds of windmills for each arm',
-	'Child\'s pose. \n\nBegin at table top position. \nSlowly extend your arms in front of you and \ntry to put your face on the floor. \nHold for 20 to 30 seconds',
-	'Upper Body Arm Stretch. \n\nLock your fingers and raise them above your head. \nKeep them up there for thirty seconds. \nRaise the roof, baby.',
-	'Hamstring Stretch. \n\nRemaining seated, extend one leg outward. \nReach towards your toes. \nHold for 10 to 30 seconds. \nRepeat on the other side.',
-	'Neck Stretch. \n\nGently pull your head toward each shoulder \nuntil a light stretch is felt. \nHold pose for 10 to 15 seconds. \nAlternate once on each side.'
+    'Lunges (Leg):\n\nStand with one foot forward and one leg back. \nBend the forward knee into a right angle, and hold for five seconds.',
+    'Modified hurdler stretch (Leg):\n\nRemaining seated on the floor, extend one leg outward. \nReach towards your toes. \nHold for 10 to 30 seconds. \nRepeat on the other side.',
+    'Arm windmill (Shoulder):\n\nSlowly swing your arm in a circle stretching out as far as you can.',
+    'Shoulder shrug (Shoulder):\n\nLift your shoulders towards your ears and hold for 1 to 2 seconds.\nThen roll your shoulders back as you relax down. Repeat a few times.',
+    'Child\'s pose (Back):\n\nBegin at table top position. \nSlowly extend your arms in front of you and \ntry to put your face on the floor. \nHold for 20 to 30 seconds.',
+    'Prone back extension (Back):\n\nLay face down on the floor, put your elbows below your shoulders and begin to push your upper body up with your arms.\n',
+    'Top forearm stretch (Arm): \n\nExtend one arm out with your palm facing towards you, point your fingers to the floor. Use your other hand to gently pull the fingers towards yourself. Hold for 10 to 30 seconds. Repeat on the other hand.',
+    'Under forearm stretch (Arm):\n\nExtend one arm out and have your palm face forward with the fingers pointed down. Use your other hands and gently pull your fingers towards yourself. Hold for 10 to 30 seconds. Repeat on the other hand.',
+    'Neck side flexion (Neck): \n\nGently pull your head toward each shoulder \nuntil a light stretch is felt. \nHold pose for 10 to 15 seconds. \nAlternate once on each side.'
+    'Forward/Backward tilt(Neck):\n\nStart with your head up and slowly lower your chin towards your chest and hold for 10 to 30 seconds. Slowly lift your head back up to neutral and then tilt your chin towards the ceiling and hold for 10 seconds. Repeat for a few reps.'
 ]
 
+stretch_imgs = [  # THESE CORRESPOND TO THE STRETCHES IN stretch, DO NOT MIX EM UP
+    ImageTk.PhotoImage(Image.open("./images/lunge-stretch.jpg")),
+    ImageTk.PhotoImage(Image.open("./images/fowardfold-stretch.jpg")),
+    ImageTk.PhotoImage(Image.open("./images/windmill-stretch.jpg")),
+    ImageTk.PhotoImage(Image.open("./images/shrug-stretch.jpg")),
+    ImageTk.PhotoImage(Image.open("./images/childspose-stretch.jpg")),
+    ImageTk.PhotoImage(Image.open("./images/prone-back-extension.jpg")),
+    ImageTk.PhotoImage(Image.open("./images/forearm-stretch.jpg")),
+    ImageTk.PhotoImage(Image.open("./images/underforearm-stretch.jpg")),
+    ImageTk.PhotoImage(Image.open("./images/neck-stretch.jpg")),
+    ImageTk.PhotoImage(Image.open("./images/necktilt-stretch.jpg")),
+]
 
 counter = 0
-def update_label(): 
-	global counter
-	getTime = float(eb1.get())
-	millisec = int(getTime * 60000) # convert minutes to miliseconds
-	print(getTime) # delete later
-	lbl.configure()
-	counter += 1
-	if(counter > 1):
-		messagebox.showinfo(title = "Time to Stretch!", message = random.choice(stretch))
+_score = 0 # DON'T DIRECTLY REFERENCE THIS, USE update_score
+score_string_var = tkinter.StringVar() # backs the score label
+def update_score(delta):
+    global _score
+    _score += delta
+    score_string_var.set("Score: " + str(_score))
 
-	root.after(millisec, update_label) # after 30 sec, executes update_label() func 
-
-
-#root.after(10000, update_label) # stops from running the first time
-
-timeLabel = tkinter.Label(root, text = "Enter time interval (minutes): ", font = (fontName, 15))
-timeLabel.configure(bg='#E19669')
-timeLabel.pack(anchor = 'w')
-eb1 = tkinter.Entry(root)
-eb1.pack(padx = 20, pady=6, anchor = 'nw')
-bt1 = tkinter.Button(padx = 10, pady=10,text= "Enter", command = update_label)
-bt1.configure(bg='#CF6024')
-bt1.pack(padx = 20, pady=6, anchor = 'nw')
-
+stretch_label_string_var = tkinter.StringVar() # backs the stretch text label
 def display_stretch():
-	print("hello there")
-	messagebox.showinfo(title = "Time to Stretch!", message = random.choice(stretch))
-	pass
+    # messagebox.showinfo(title="Time to Stretch!",
+    #                    message=random.choice(stretch))
+    new_window = tkinter.Toplevel(root)
+    new_window.title = "Time to Stretch!"
 
-loadNewStretch = tkinter.Label(root, text = "Get New Stretch", font = (fontName, 15))
+    choice = random.randrange(0, len(stretch))
+
+    label = tkinter.Label(new_window, textvariable = stretch_label_string_var)
+    label.pack()
+
+    stretch_label_string_var.set(stretch[choice])
+
+    def done_with_stretch():
+        new_window.destroy()
+        update_score(10)
+    btn = tkinter.Button(new_window, text="Done", command=done_with_stretch)
+    btn.pack()
+
+    stretch_img_label = tkinter.Label(new_window, image=stretch_imgs[choice])
+    stretch_img_label.pack()
+
+    new_window.bell()
+
+
+def update_label():
+    global counter
+    getTime = float(eb1.get())
+    millisec = int(getTime * 60000)  # convert minutes to miliseconds
+    print(getTime)  # delete later
+    lbl.configure()
+    counter += 1
+    if(counter > 1):
+        display_stretch()
+
+    # after 30 sec, executes update_label() func
+    root.after(millisec, update_label)
+
+
+# root.after(10000, update_label) # stops from running the first time
+
+scoreLabel = tkinter.Label(root, textvariable = score_string_var, font=(fontName, 15))
+scoreLabel.pack()
+
+timeLabel = tkinter.Label(
+    root, text="Enter time interval (minutes): ", font=(fontName, 15))
+timeLabel.configure(bg='#E19669')
+timeLabel.pack(anchor='w')
+eb1 = tkinter.Entry(root)
+eb1.pack(padx=20, pady=6, anchor='nw')
+bt1 = tkinter.Button(padx=10, pady=10, text="Enter", command=update_label)
+bt1.configure(bg='#CF6024')
+bt1.pack(padx=20, pady=6, anchor='nw')
+
+
+loadNewStretch = tkinter.Label(
+    root, text="Get New Stretch", font=(fontName, 15))
 loadNewStretch.configure(bg='#E19669')
-loadNewStretch.pack(anchor = 'w')
+loadNewStretch.pack(anchor='w')
 
-bt2 = tkinter.Button(padx = 10, pady=10, text= "Enter", command = display_stretch)
-bt2.pack(padx = 20, pady=6,anchor = 'w')
+bt2 = tkinter.Button(padx=10, pady=10, text="Enter", command=display_stretch)
+bt2.pack(padx=20, pady=6, anchor='w')
 bt2.configure(bg='#CF6024')
 
-def dark_mode():
-	print("Dark Mode")
-	root.configure(bg='#008890')
-	move.configure(bg='#005D62',fg="#E2E5DE")
-	lbl.configure(bg='#008890',fg="#E2E5DE")
-	timeLabel.configure(bg='#008890',fg="#E2E5DE")
-	loadNewStretch.configure(bg='#008890',fg="#E2E5DE")
-	bt1.configure(bg='#005D62',fg="#E2E5DE")
-	bt2.configure(bg='#005D62',fg="#E2E5DE")
-	bt3.configure(bg='#005D62',fg="#E2E5DE")
-	pass
 
-bt3 = tkinter.Button(padx = 20, pady=6, text="Switch to Dark/Night Mode", command = dark_mode)
+def dark_mode():
+    print("Dark Mode")
+    root.configure(bg='#008890')
+    move.configure(bg='#005D62', fg="#E2E5DE")
+    lbl.configure(bg='#008890', fg="#E2E5DE")
+    timeLabel.configure(bg='#008890', fg="#E2E5DE")
+    loadNewStretch.configure(bg='#008890', fg="#E2E5DE")
+    bt1.configure(bg='#005D62', fg="#E2E5DE")
+    bt2.configure(bg='#005D62', fg="#E2E5DE")
+    bt3.configure(bg='#005D62', fg="#E2E5DE")
+    pass
+
+
+bt3 = tkinter.Button(
+    padx=20, pady=6, text="Switch to Dark/Night Mode", command=dark_mode)
 bt3.configure(bg='#CF6024')
-bt3.pack(padx = 20, pady=20, anchor = 'e')
+bt3.pack(padx=20, pady=20, anchor='e')
 
 photo = tkinter.PhotoImage(file="download.png")
 photo = photo.subsample(20, 20)
 myimage = tkinter.Label(image=photo)
 myimage.pack()
+
 
 root.mainloop()  # leave at end of program
