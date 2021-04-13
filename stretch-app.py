@@ -199,6 +199,8 @@ def dark_mode():
     bt1.configure(bg='#005D62', fg="#E2E5DE")
     bt2.configure(bg='#005D62', fg="#E2E5DE")
     bt3.configure(bg='#005D62', fg="#E2E5DE")
+    stretch_menu_label.configure(bg='#005D62', fg="#E2E5DE")
+    stretch_menu.configure(bg='#005D62', fg="#E2E5DE")
     pass
 
 
