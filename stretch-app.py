@@ -98,18 +98,15 @@ def update_score(delta):
     score_string_var.set("Score: " + str(_score))
 
 stretch_label_string_var = tkinter.StringVar() # backs the stretch text label
-def display_stretch():
-    # messagebox.showinfo(title="Time to Stretch!",
-    #                    message=random.choice(stretch))
+def display_stretch(index):
     new_window = tkinter.Toplevel(root)
     new_window.title = "Time to Stretch!"
 
-    choice = random.randrange(0, len(stretch))
 
     label = tkinter.Label(new_window, textvariable = stretch_label_string_var)
     label.pack()
 
-    stretch_label_string_var.set(stretch[choice])
+    stretch_label_string_var.set(stretch[index])
 
     def done_with_stretch():
         new_window.destroy()
@@ -117,11 +114,14 @@ def display_stretch():
     btn = tkinter.Button(new_window, text="Done", command=done_with_stretch)
     btn.pack()
 
-    stretch_img_label = tkinter.Label(new_window, image=stretch_imgs[choice])
+    stretch_img_label = tkinter.Label(new_window, image=stretch_imgs[index])
     stretch_img_label.pack()
 
     new_window.bell()
 
+def display_random_stretch():
+    choice = random.randrange(0, len(stretch))
+    display_stretch(choice)
 
 def update_label():
     global counter
@@ -131,7 +131,7 @@ def update_label():
     lbl.configure()
     counter += 1
     if(counter > 1):
-        display_stretch()
+        display_random_stretch()
 
     # after 30 sec, executes update_label() func
     root.after(millisec, update_label)
@@ -158,9 +158,35 @@ loadNewStretch = tkinter.Label(
 loadNewStretch.configure(bg='#E19669')
 loadNewStretch.pack(anchor='w')
 
-bt2 = tkinter.Button(padx=10, pady=10, text="Enter", command=display_stretch)
+bt2 = tkinter.Button(padx=10, pady=10, text="Enter", command=display_random_stretch)
 bt2.pack(padx=20, pady=6, anchor='w')
 bt2.configure(bg='#CF6024')
+
+# Menu of stretches
+stretch_menu_label = tkinter.Label(root, text = "Or pick a specific stretch: ", font = (fontName, 15))
+stretch_menu_label.configure(bg = '#E19669')
+stretch_menu_label.pack(anchor = 'w')
+
+stretches_short = [
+    'Lunges',
+    'Modified hurdler stretch',
+    'Arm windmill',
+    'Shoulder shrug',
+    'Child\'s pose',
+    'Prone back extension',
+    'Top forearm stretch',
+    'Under forearm stretch',
+    'Neck side flexion',
+    'Forward/Backward tilt',
+]
+stretch_menu_string_var = tkinter.StringVar(value = stretches_short[0])
+def choose_stretch_from_menu(choice):
+    index = stretches_short.index(choice)
+    display_stretch(index)
+stretch_menu = tkinter.OptionMenu(root, stretch_menu_string_var, *stretches_short, 
+                                  command = choose_stretch_from_menu)
+stretch_menu.configure(bg = '#CF6024')
+stretch_menu.pack()
 
 
 def dark_mode():
