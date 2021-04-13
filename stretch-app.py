@@ -185,8 +185,8 @@ def choose_stretch_from_menu(choice):
     display_stretch(index)
 stretch_menu = tkinter.OptionMenu(root, stretch_menu_string_var, *stretches_short, 
                                   command = choose_stretch_from_menu)
-stretch_menu.configure(bg = '#CF6024')
-stretch_menu.pack()
+stretch_menu.configure(padx=10, pady=10, bg = '#CF6024')
+stretch_menu.pack(padx=20, pady=6, anchor='w')
 
 
 def dark_mode():
@@ -199,7 +199,7 @@ def dark_mode():
     bt1.configure(bg='#005D62', fg="#E2E5DE")
     bt2.configure(bg='#005D62', fg="#E2E5DE")
     bt3.configure(bg='#005D62', fg="#E2E5DE")
-    stretch_menu_label.configure(bg='#005D62', fg="#E2E5DE")
+    stretch_menu_label.configure(bg='#008890', fg="#E2E5DE")
     stretch_menu.configure(bg='#005D62', fg="#E2E5DE")
     pass
 
