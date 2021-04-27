@@ -24,6 +24,8 @@ import random
 # retrieve system's time
 from time import strftime
 from tkinter import messagebox
+from playsound import playsound
+import pygame
 
 # creating tkinter window
 fontName = 'Georgia'
@@ -40,6 +42,23 @@ def time():
     lbl.config(text=string)
     lbl.after(1000, time)
 
+
+# nightlife-michael-kobrin
+# def play():
+#     playsound('music/nightlife-michael-kobrin.mp3')
+
+# making a button which triger the funtion so sound can be played
+# play_button = tkinter.Button(root, text="Play Song", font=("Helvetica", 32), command=play)
+# play_button.pack(pady=20)
+
+pygame.mixer.init()# initialise the pygame
+
+def play():
+    pygame.mixer.music.load("music/nightlife-michael-kobrin.mp3")
+    pygame.mixer.music.play()
+  
+play_button = tkinter.Button(root, text="Play Song", font=("Helvetica", 32), command=play)
+play_button.pack(pady=20)
 
 # Styling the label widget so that clock
 # will look more attractive
