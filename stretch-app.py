@@ -137,8 +137,6 @@ def update_leaderboard(name, score):
     _leaderboard.sort(key = lambda x: x[1], reverse = True)
     if len(_leaderboard) > 5:
         _leaderboard.pop()
-ldr_test_button = tkinter.Button(root, text = "asdf", command = lambda: update_leaderboard("whomst", 100))
-ldr_test_button.pack()
 
 counter = 0
 _score = 0 # DON'T DIRECTLY REFERENCE THIS, USE update_score
