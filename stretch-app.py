@@ -23,7 +23,6 @@ import random
 # importing strftime function to
 # retrieve system's time
 from time import strftime
-from tkinter import messagebox
 
 # creating tkinter window
 fontName = 'Georgia'
@@ -89,6 +88,58 @@ stretch_imgs = [  # THESE CORRESPOND TO THE STRETCHES IN stretch, DO NOT MIX EM 
     ImageTk.PhotoImage(Image.open("./images/necktilt-stretch.jpg")),
 ]
 
+username = "User"
+username_string_var = tkinter.StringVar(value = "Username: User")
+username_label = tkinter.Label(root, textvariable = username_string_var, font = (fontName, 15))
+username_label.pack()
+
+def change_username(name):
+    global username
+    username = name
+    username_string_var.set("Username: " + name)
+def change_username_window():
+    new_window = tkinter.Toplevel(root)
+    new_window.title = "Change Username"
+
+    label = tkinter.Label(new_window, text = "What's your name?")
+    label.pack()
+
+    username_entry = tkinter.Entry(new_window)
+    username_entry.pack()
+
+    def done_button_cmd():
+        change_username(username_entry.get())
+        new_window.destroy()
+    done_button = tkinter.Button(new_window, text = "Done", command = done_button_cmd)
+    done_button.pack()
+
+change_username_btn = tkinter.Button(root, text = "Not you?", command = change_username_window)
+change_username_btn.pack()
+
+_leaderboard = [ # DON'T DIRECTLY REFERENCE THIS, USE update_leaderboard
+    ('Zakee', 50),
+    ('Savannah', 40),
+    ('Dimitra', 30),
+    ('Austin', 20),
+    ('Ernesto', 10)
+]
+def update_leaderboard(name, score):
+    prev_entry_index = None
+    for entry in _leaderboard:
+        if entry[0] == name:
+            prev_entry_index = _leaderboard.index(entry)
+            break
+
+    if prev_entry_index is not None:
+        _leaderboard[prev_entry_index] = (name, score)
+    else:
+        _leaderboard.append((name, score))
+    _leaderboard.sort(key = lambda x: x[1], reverse = True)
+    if len(_leaderboard) > 5:
+        _leaderboard.pop()
+ldr_test_button = tkinter.Button(root, text = "asdf", command = lambda: update_leaderboard("whomst", 100))
+ldr_test_button.pack()
+
 counter = 0
 _score = 0 # DON'T DIRECTLY REFERENCE THIS, USE update_score
 score_string_var = tkinter.StringVar(value="Score: ") # backs the score label
@@ -96,6 +147,7 @@ def update_score(delta):
     global _score
     _score += delta
     score_string_var.set("Score: " + str(_score))
+    update_leaderboard(username, _score)
 
 stretch_label_string_var = tkinter.StringVar() # backs the stretch text label
 def display_stretch(index):
@@ -126,6 +178,8 @@ def display_random_stretch():
 def update_label():
     global counter
     getTime = float(eb1.get())
+    if getTime < 1:
+        return
     millisec = int(getTime * 60000)  # convert minutes to miliseconds
     print(getTime)  # delete later
     lbl.configure()
@@ -141,6 +195,15 @@ def update_label():
 
 scoreLabel = tkinter.Label(root, textvariable = score_string_var, font=(fontName, 15))
 scoreLabel.pack()
+
+def show_leaderboard():
+    new_window = tkinter.Toplevel(root)
+
+    for entry in _leaderboard:
+        label = tkinter.Label(new_window, text = entry[0] + ": " + str(entry[1]))
+        label.pack()
+leaderboard_button = tkinter.Button(root, text = "Leaderboard", command = show_leaderboard)
+leaderboard_button.pack()
 
 timeLabel = tkinter.Label(
     root, text="Enter time interval (minutes): ", font=(fontName, 15))
@@ -201,7 +264,6 @@ def dark_mode():
     bt3.configure(bg='#005D62', fg="#E2E5DE")
     stretch_menu_label.configure(bg='#008890', fg="#E2E5DE")
     stretch_menu.configure(bg='#005D62', fg="#E2E5DE")
-    pass
 
 
 bt3 = tkinter.Button(
