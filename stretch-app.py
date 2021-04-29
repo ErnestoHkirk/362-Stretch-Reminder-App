@@ -2,19 +2,23 @@
 # Dimitra Doiphode, Austin Sohn, Zakee Khattak, Ernesto Hooghkirk, Savannah Bauer
 # TODO:
 # Phase 1 -
-# Complete! :)
+# - Add clock GUI
+# - Add way to display motivational quote
+# - Add set interval for stretches with names of each stretch and description
+# - Add stretch notifcation window
+# - Auto-randomize new stretches with button
 # Phase 2
 # - Image accompanying each stretch to demonstrate how to do it
 # - Dark mode -CHECK
 # - Sound/alarm
 # - Similar stretch button? (see similar stretches)
-# -
+# - Point System
 # Phase 3
-# - gif accompanying each stretch to demonstrate how to do it
-# - reward system?
-# -
-# -
-# -
+# - Account System
+# - LeaderBoard
+# - Favorite(s) Stretch
+# - Text to Speech
+# - Music selector
 
 import random
 from time import strftime
@@ -34,30 +38,10 @@ root.configure(bg='#E19669')
 
 # This function is used to
 # display time on the label
-
-
 def time():
     string = strftime('%I:%M %p')
     lbl.config(text=string)
     lbl.after(1000, time)
-
-
-# nightlife-michael-kobrin
-# def play():
-#     playsound('music/nightlife-michael-kobrin.mp3')
-
-# making a button which triger the funtion so sound can be played
-# play_button = tkinter.Button(root, text="Play Song", font=("Helvetica", 32), command=play)
-# play_button.pack(pady=20)
-
-pygame.mixer.init()# initialise the pygame
-
-def play():
-    pygame.mixer.music.load("music/nightlife-michael-kobrin.mp3")
-    pygame.mixer.music.play()
-  
-play_button = tkinter.Button(root, text="Play Song", font=("Helvetica", 32), command=play)
-play_button.pack(pady=20)
 
 # Styling the label widget so that clock
 # will look more attractive
@@ -296,6 +280,55 @@ stretch_menu.configure(padx=10, pady=10, bg = '#CF6024')
 stretch_menu.pack(padx=20, pady=6, anchor='w')
 
 
+
+# Start of Music Dependencies and Functionality
+
+pygame.mixer.init()# initialise the pygame
+
+def play(choice):
+    print(choice)
+    pygame.mixer.music.load(song_selector_file_path[choice])
+    pygame.mixer.music.play()
+  
+# play_button = tkinter.Button(root, text="Play Song", font=("Helvetica", 32), command=play)
+# play_button.pack(pady=20)
+
+# Music drop-down label
+song_menu_label = tkinter.Label(root, text = "Song selector: ", font = (fontName, 15))
+song_menu_label.configure(bg = '#E19669')
+song_menu_label.pack(anchor = 'w')
+
+song_selector = [
+    'Awakening',
+    'Cali',
+    'Cancion Triste',
+    'Dreamy Piano',
+    'Nightlife',
+    'Modular Ambient',
+]
+
+song_selector_file_path = [
+    "music/awakening-instrumental.mp3",
+    "music/cali.mp3",
+    "music/cancion-triste.mp3",
+    "music/dreamy-piano-soft-sound-ambient-background.mp3",
+    "music/modular-ambient.mp3",
+    "music/nightlife-michael-kobrin.mp3",
+]
+
+song_menu_string_var = tkinter.StringVar(value = song_selector[0])
+def choose_song_from_menu(choice):
+    index = song_selector.index(choice)
+    play(index)
+
+song_menu = tkinter.OptionMenu(root, song_menu_string_var, *song_selector, 
+                                  command = choose_song_from_menu)
+                                  
+song_menu.configure(padx=10, pady=10, bg = '#CF6024')
+song_menu.pack(padx=20, pady=6, anchor='w')
+
+# End of Music Dependencies and Functionality
+
 def dark_mode():
     print("Dark Mode")
     root.configure(bg='#008890')
@@ -307,7 +340,9 @@ def dark_mode():
     bt2.configure(bg='#005D62', fg="#E2E5DE")
     bt3.configure(bg='#005D62', fg="#E2E5DE")
     stretch_menu_label.configure(bg='#008890', fg="#E2E5DE")
+    song_menu_label.configure(bg='#008890', fg="#E2E5DE")
     stretch_menu.configure(bg='#005D62', fg="#E2E5DE")
+    song_menu.configure(bg='#005D62', fg="#E2E5DE")
 
 
 bt3 = tkinter.Button(
