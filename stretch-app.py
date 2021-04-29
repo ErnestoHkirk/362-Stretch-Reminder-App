@@ -16,15 +16,14 @@
 # -
 # -
 
-# importing whole module
+import random
+from time import strftime
+import json
 import tkinter
 from PIL import Image, ImageTk # for JPG support
-import random
 # importing strftime function to
 # retrieve system's time
-from time import strftime
 from tkinter import messagebox
-from playsound import playsound
 import pygame
 
 # creating tkinter window
@@ -117,6 +116,8 @@ def change_username(name):
     global username
     username = name
     username_string_var.set("Username: " + name)
+
+    write_data()
 def change_username_window():
     new_window = tkinter.Toplevel(root)
     new_window.title = "Change Username"
@@ -136,13 +137,36 @@ def change_username_window():
 change_username_btn = tkinter.Button(root, text = "Not you?", command = change_username_window)
 change_username_btn.pack()
 
-_leaderboard = [ # DON'T DIRECTLY REFERENCE THIS, USE update_leaderboard
+_leaderboard = [
     ('Zakee', 50),
     ('Savannah', 40),
     ('Dimitra', 30),
     ('Austin', 20),
     ('Ernesto', 10)
 ]
+
+def write_data():
+    data_to_write = {
+        "username": username,
+        "leaderboard": _leaderboard
+    }
+
+    with open("data.json", "w") as file:
+        json.dump(data_to_write, file)
+
+def read_data():
+    data = None
+    with open("data.json") as file:
+        data = json.load(file)
+
+    if data is not None:
+        global username
+        global _leaderboard
+        change_username(data["username"])
+        _leaderboard = data["leaderboard"]
+
+read_data()
+
 def update_leaderboard(name, score):
     prev_entry_index = None
     for entry in _leaderboard:
@@ -157,6 +181,8 @@ def update_leaderboard(name, score):
     _leaderboard.sort(key = lambda x: x[1], reverse = True)
     if len(_leaderboard) > 5:
         _leaderboard.pop()
+
+    write_data()
 
 counter = 0
 _score = 0 # DON'T DIRECTLY REFERENCE THIS, USE update_score
