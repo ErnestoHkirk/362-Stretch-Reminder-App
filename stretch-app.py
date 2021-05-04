@@ -102,6 +102,7 @@ def change_username(name):
     username_string_var.set("Username: " + name)
 
     write_data()
+    refresh_favorites()
 def change_username_window():
     new_window = tkinter.Toplevel(root)
     new_window.title = "Change Username"
@@ -121,18 +122,15 @@ def change_username_window():
 change_username_btn = tkinter.Button(root, text = "Not you?", command = change_username_window)
 change_username_btn.pack()
 
-_leaderboard = [
-    ('Zakee', 50),
-    ('Savannah', 40),
-    ('Dimitra', 30),
-    ('Austin', 20),
-    ('Ernesto', 10)
-]
+_leaderboard = []
+
+_favorites = {}
 
 def write_data():
     data_to_write = {
         "username": username,
-        "leaderboard": _leaderboard
+        "leaderboard": _leaderboard,
+        "favorites": _favorites
     }
 
     with open("data.json", "w") as file:
@@ -144,10 +142,11 @@ def read_data():
         data = json.load(file)
 
     if data is not None:
-        global username
         global _leaderboard
-        change_username(data["username"])
+        global _favorites
         _leaderboard = data["leaderboard"]
+        _favorites = data["favorites"]
+        change_username(data["username"])
 
 read_data()
 
@@ -194,6 +193,21 @@ def display_stretch(index):
     btn = tkinter.Button(new_window, text="Done", command=done_with_stretch)
     btn.pack()
 
+    def add_to_favorites():
+        favs_list = _favorites.get(username, None)
+        if favs_list is None:
+            _favorites[username] = [index]
+            return
+
+        if index not in favs_list:
+            favs_list.append(index)
+
+        _favorites[username] = favs_list
+        refresh_favorites()
+        write_data()
+    add_to_favorites_btn = tkinter.Button(new_window, text = "Add to Favorites", command = add_to_favorites)
+    add_to_favorites_btn.pack()
+
     stretch_img_label = tkinter.Label(new_window, image=stretch_imgs[index])
     stretch_img_label.pack()
 
@@ -212,7 +226,7 @@ def update_label():
     print(getTime)  # delete later
     lbl.configure()
     counter += 1
-    if(counter > 1):
+    if counter > 1:
         display_random_stretch()
 
     # after 30 sec, executes update_label() func
@@ -274,12 +288,25 @@ stretch_menu_string_var = tkinter.StringVar(value = stretches_short[0])
 def choose_stretch_from_menu(choice):
     index = stretches_short.index(choice)
     display_stretch(index)
-stretch_menu = tkinter.OptionMenu(root, stretch_menu_string_var, *stretches_short, 
+stretch_menu = tkinter.OptionMenu(root, stretch_menu_string_var, *stretches_short,
                                   command = choose_stretch_from_menu)
 stretch_menu.configure(padx=10, pady=10, bg = '#CF6024')
 stretch_menu.pack(padx=20, pady=6, anchor='w')
 
+favorites_menu = tkinter.OptionMenu(root, "Your Favorites", "Your Favorites")
 
+def refresh_favorites():
+    menu = favorites_menu["menu"]
+    menu.delete(0, 10) # this is boiled ass
+
+    favs_list = _favorites.get(username, [])
+    for item in favs_list:
+        def open_favorite_stretch(index = item): # kludge - we use this to get an early binding on item
+            display_stretch(index)
+        menu.add_command(label = stretches_short[item], command = open_favorite_stretch)
+refresh_favorites()
+
+favorites_menu.pack()
 
 # Start of Music Dependencies and Functionality
 
@@ -289,7 +316,7 @@ def play(choice):
     print(choice)
     pygame.mixer.music.load(song_selector_file_path[choice])
     pygame.mixer.music.play()
-  
+
 # play_button = tkinter.Button(root, text="Play Song", font=("Helvetica", 32), command=play)
 # play_button.pack(pady=20)
 

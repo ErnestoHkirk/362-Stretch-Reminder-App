@@ -6,5 +6,8 @@
         ["Dimitra", 30],
         ["Austin", 20],
         ["Ernesto", 10]
-    ]
+    ],
+    "favorites": {
+        "Zakee": [1, 5, 9]
+    }
 }
