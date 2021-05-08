@@ -74,7 +74,7 @@ stretch = [
     'Prone back extension (Back):\n\nLay face down on the floor, put your elbows below your shoulders and begin to push your upper body up with your arms.\n',
     'Top forearm stretch (Arm): \n\nExtend one arm out with your palm facing towards you, point your fingers to the floor. Use your other hand to gently pull the fingers towards yourself. Hold for 10 to 30 seconds. Repeat on the other hand.',
     'Under forearm stretch (Arm):\n\nExtend one arm out and have your palm face forward with the fingers pointed down. Use your other hands and gently pull your fingers towards yourself. Hold for 10 to 30 seconds. Repeat on the other hand.',
-    'Neck side flexion (Neck): \n\nGently pull your head toward each shoulder \nuntil a light stretch is felt. \nHold pose for 10 to 15 seconds. \nAlternate once on each side.'
+    'Neck side flexion (Neck): \n\nGently pull your head toward each shoulder \nuntil a light stretch is felt. \nHold pose for 10 to 15 seconds. \nAlternate once on each side.',
     'Forward/Backward tilt(Neck):\n\nStart with your head up and slowly lower your chin towards your chest and hold for 10 to 30 seconds. Slowly lift your head back up to neutral and then tilt your chin towards the ceiling and hold for 10 seconds. Repeat for a few reps.'
 ]
 
@@ -94,15 +94,9 @@ stretch_imgs = [  # THESE CORRESPOND TO THE STRETCHES IN stretch, DO NOT MIX EM 
 username = "User"
 username_string_var = tkinter.StringVar(value = "Username: User")
 username_label = tkinter.Label(root, textvariable = username_string_var, font = (fontName, 15))
+username_label.configure(bg='#E19669')
 username_label.pack()
 
-def change_username(name):
-    global username
-    username = name
-    username_string_var.set("Username: " + name)
-
-    write_data()
-    refresh_favorites()
 def change_username_window():
     new_window = tkinter.Toplevel(root)
     new_window.title = "Change Username"
@@ -120,6 +114,7 @@ def change_username_window():
     done_button.pack()
 
 change_username_btn = tkinter.Button(root, text = "Not you?", command = change_username_window)
+change_username_btn.configure(bg='#CF6024')
 change_username_btn.pack()
 
 _leaderboard = []
@@ -146,7 +141,8 @@ def read_data():
         global _favorites
         _leaderboard = data["leaderboard"]
         _favorites = data["favorites"]
-        change_username(data["username"])
+        username = data["username"]
+        username_string_var.set("Username: " + data["username"])
 
 read_data()
 
@@ -236,6 +232,7 @@ def update_label():
 # root.after(10000, update_label) # stops from running the first time
 
 scoreLabel = tkinter.Label(root, textvariable = score_string_var, font=(fontName, 15))
+scoreLabel.configure(bg='#E19669')
 scoreLabel.pack()
 
 def show_leaderboard():
@@ -245,6 +242,7 @@ def show_leaderboard():
         label = tkinter.Label(new_window, text = entry[0] + ": " + str(entry[1]))
         label.pack()
 leaderboard_button = tkinter.Button(root, text = "Leaderboard", command = show_leaderboard)
+leaderboard_button.configure(bg='#CF6024')
 leaderboard_button.pack()
 
 timeLabel = tkinter.Label(
@@ -293,20 +291,33 @@ stretch_menu = tkinter.OptionMenu(root, stretch_menu_string_var, *stretches_shor
 stretch_menu.configure(padx=10, pady=10, bg = '#CF6024')
 stretch_menu.pack(padx=20, pady=6, anchor='w')
 
-favorites_menu = tkinter.OptionMenu(root, "Your Favorites", "Your Favorites")
 
+favorites_menu_button = tkinter.Menubutton(root, text = "Your Favorites", relief = tkinter.RAISED)
+favorites_menu_button.configure(bg = '#CF6024')
+favorites_menu = tkinter.Menu(favorites_menu_button, tearoff = 0)
+favorites_menu_button["menu"] = favorites_menu
 def refresh_favorites():
-    menu = favorites_menu["menu"]
-    menu.delete(0, 10) # this is boiled ass
+    favorites_menu.delete(0, 10) # this is terrible
 
     favs_list = _favorites.get(username, [])
-    for item in favs_list:
-        def open_favorite_stretch(index = item): # kludge - we use this to get an early binding on item
-            display_stretch(index)
-        menu.add_command(label = stretches_short[item], command = open_favorite_stretch)
+    if favs_list == []:
+        favorites_menu.add_command(label = "You don't have any favorites!")
+    else:
+        for item in favs_list:
+            def open_favorite_stretch(index = item): # kludge - we use this to get an early binding on item
+                display_stretch(index)
+            favorites_menu.add_command(label = stretches_short[item], command = open_favorite_stretch)
 refresh_favorites()
 
-favorites_menu.pack()
+favorites_menu_button.pack(padx = 20, anchor = 'w')
+
+def change_username(name):
+    global username
+    username = name
+    username_string_var.set("Username: " + name)
+
+    write_data()
+    refresh_favorites()
 
 # Start of Music Dependencies and Functionality
 
@@ -348,7 +359,7 @@ def choose_song_from_menu(choice):
     index = song_selector.index(choice)
     play(index)
 
-song_menu = tkinter.OptionMenu(root, song_menu_string_var, *song_selector, 
+song_menu = tkinter.OptionMenu(root, song_menu_string_var, *song_selector,
                                   command = choose_song_from_menu)
                                   
 song_menu.configure(padx=10, pady=10, bg = '#CF6024')
@@ -370,6 +381,8 @@ def dark_mode():
     song_menu_label.configure(bg='#008890', fg="#E2E5DE")
     stretch_menu.configure(bg='#005D62', fg="#E2E5DE")
     song_menu.configure(bg='#005D62', fg="#E2E5DE")
+    username_label.configure(bg='#008890', fg="#E2E5DE")
+    scoreLabel.configure(bg='#008890', fg="#E2E5DE")
 
 
 bt3 = tkinter.Button(
