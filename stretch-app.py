@@ -29,12 +29,34 @@ from PIL import Image, ImageTk # for JPG support
 # retrieve system's time
 from tkinter import messagebox
 import pygame
+import pyttsx3
+
 
 # creating tkinter window
 fontName = 'Georgia'
 root = tkinter.Tk()
 root.title("Project Sandfly: Stretch Reminder")
 root.configure(bg='#E19669')
+
+
+engine = pyttsx3.init() 
+
+""" RATE"""
+engine.setProperty('rate', 150)
+rate = engine.getProperty('rate')
+engine.runAndWait()
+engine.stop()
+
+
+"""VOLUME"""
+volume = engine.getProperty('volume')   
+engine.setProperty('volume',1)   
+
+"""VOICE"""
+voices = engine.getProperty('voices')
+engine.setProperty('voice', voices[0].id) 
+
+
 
 # This function is used to
 # display time on the label
@@ -201,8 +223,17 @@ def display_stretch(index):
         _favorites[username] = favs_list
         refresh_favorites()
         write_data()
+
     add_to_favorites_btn = tkinter.Button(new_window, text = "Add to Favorites", command = add_to_favorites)
     add_to_favorites_btn.pack()
+
+    def text_to_speech_func():
+        engine.say(stretch[index])
+        engine.runAndWait()
+        engine.stop()
+        
+    text_to_speech_btn = tkinter.Button(new_window, text = "Text to Speech", command = text_to_speech_func)
+    text_to_speech_btn.pack()
 
     stretch_img_label = tkinter.Label(new_window, image=stretch_imgs[index])
     stretch_img_label.pack()
@@ -341,8 +372,8 @@ song_selector = [
     'Cali',
     'Cancion Triste',
     'Dreamy Piano',
-    'Nightlife',
     'Modular Ambient',
+    'Nightlife',
 ]
 
 song_selector_file_path = [
@@ -383,7 +414,9 @@ def dark_mode():
     song_menu.configure(bg='#005D62', fg="#E2E5DE")
     username_label.configure(bg='#008890', fg="#E2E5DE")
     scoreLabel.configure(bg='#008890', fg="#E2E5DE")
-
+    leaderboard_button.configure(bg='#005D62', fg="#E2E5DE")
+    favorites_menu_button.configure(bg='#005D62', fg="#E2E5DE")
+    change_username_btn.configure(bg='#005D62', fg="#E2E5DE")
 
 bt3 = tkinter.Button(
     padx=20, pady=6, text="Switch to Dark/Night Mode", command=dark_mode)

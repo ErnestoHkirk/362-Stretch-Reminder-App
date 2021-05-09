@@ -1,13 +1,1 @@
-{
-    "username": "User",
-    "leaderboard": [
-        ["Zakee", 50],
-        ["Savannah", 40],
-        ["Dimitra", 30],
-        ["Austin", 20],
-        ["Ernesto", 10]
-    ],
-    "favorites": {
-        "Zakee": [1, 5, 9]
-    }
-}
+{"username": "User", "leaderboard": [["Zakee", 50], ["Savannah", 40], ["Dimitra", 30], ["Austin", 20], ["User", 20]], "favorites": {"Zakee": [1, 5, 9], "User": [1, 4]}}
